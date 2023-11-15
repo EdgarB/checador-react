@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavBar } from '../components/NavBar';
-import './Pages.scss';
+import './AppLayout.scss';
 import { Outlet } from 'react-router-dom';
 
-export const PagesLayout = (props) => {
+export const AppLayout = (props) => {
   return(
     <main className='l-global-layout'>
       <NavBar/>

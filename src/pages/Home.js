@@ -1,13 +1,12 @@
 
 import React from 'react';
-import { NavBar } from '../components/NavBar';
-import { GlobalLayout } from '../layouts/Pages';
-import { Logger } from '../containers/Logger';
+
+import { Logger } from '../features/Logger';
 
 
 export const HomePage = ()=>{
   return(
-      <div>
+      <div className='w-full'>
         <Logger/>
       </div>
   )

@@ -1,25 +1,13 @@
 import React from "react";
 import { Table } from "../../../components/Table";
-
-const header = [
-  'Fecha',
-  'Entrada',
-  'Salida a comer',
-  'Regreso de comer',
-  'Salida'
-]
-
-const body = [
-  ['12/10/2023','A tiempo', 'Tardio', '-', 'A tiempo'],
-  ['13/10/2023','A tiempo', 'Tardio', '-', 'A tiempo'],
-  ['14/10/2023','A tiempo', 'Tardio', '-', 'A tiempo'],
-  ['15/10/2023','A tiempo', 'Tardio', '-', 'A tiempo']
-]
+import { Logs } from "../../../features/logs/Logs";
+import { useParams } from "react-router-dom";
 
 export const PersonsLogsPage = ()=>{
+  const {personId} = useParams()
   return(
     <div>
-      <Table headers={header} body={body}/>
+      <Logs personId={personId}/>
     </div>
   )
 }
