@@ -1,0 +1,15 @@
+.c-table{
+  display: block;
+  
+  margin: 0 auto;
+  &__row{
+    border:1px solid black;
+  }
+
+  &__data{
+    padding: 8px;
+    &:not(:last-child){
+      padding-right: 24px;
+    }
+  }
+}
