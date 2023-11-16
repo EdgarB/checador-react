@@ -2,7 +2,7 @@ import React from "react";
 import './Table.scss';
 export const Table = (props) => {
   return(
-    <table>
+    <table className="c-table">
       <thead className="c-table__row">
         {props.headers.map((header)=>{
           return(<th className="c-table__data">{header}</th>)

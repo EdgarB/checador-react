@@ -13,11 +13,6 @@ const header = [
 ]
 
 export const Persons = () => {
-  const dispatch = useDispatch()
-  useEffect(()=> {
-    dispatch(loadPersons());
-  }, [])
-
   const personsData = useSelector(selectPersonsAsArray);
 
   return(

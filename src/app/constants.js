@@ -14,3 +14,7 @@ export const TIMES_BY_LOG_TYPE = {
   [END_MEAL_LOG_TYPE]: END_MEAL_TIME,
   [END_WORK_LOG_TYPE]: END_WORK_TIME,
 }
+
+export const ON_TIME_LOG_STATE = 'On time';
+export const LATE_LOG_STATE = 'Late';
+export const JUSTIFIED_LOG_STATE = 'Justified'

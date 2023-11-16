@@ -1,23 +1,27 @@
+import moment from "moment";
+import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, LATE_LOG_STATE, ON_TIME_LOG_STATE, START_WORK_LOG_TYPE } from "./app/constants";
+
+const nowTime = moment().format();
 export const logsData = {
   '25': {
     id: '25',
-    createdAt: new Date(),
-    state: 'A tiempo',
-    type: 'Entrada',
+    createdAt: nowTime,
+    state: ON_TIME_LOG_STATE,
+    type: START_WORK_LOG_TYPE,
     personId: '1',
   },
   '26': {
     id: '26',
-    createdAt: new Date(),
-    state: 'Tardia',
-    type: 'Salida a comer',
+    createdAt: nowTime,
+    state: LATE_LOG_STATE,
+    type: END_MEAL_LOG_TYPE,
     personId: '1',
   },
   '28': {
     id: '28',
-    createdAt: new Date(),
-    state: 'A tiempo',
-    type: 'Salida',
+    createdAt: nowTime,
+    state: ON_TIME_LOG_STATE,
+    type: END_WORK_LOG_TYPE,
     personId: '1',
   },
 }

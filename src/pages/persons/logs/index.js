@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 export const PersonsLogsPage = ()=>{
   const {personId} = useParams()
   return(
-    <div>
+    <div className="w-full flex items-center">
       <Logs personId={personId}/>
     </div>
   )

@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {logsData} from '../../data.js'
+import moment from 'moment';
+import { START_WORK_LOG_TYPE, START_MEAL_LOG_TYPE, END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE } from '../../app/constants.js';
 
 export const loadLogs = () => {
   return {
@@ -29,12 +31,14 @@ const logsSlice = createSlice({
       return action.payload;
     },
     createLog: (state, action) =>{
-      return Object.assign({}, state, {[action.payload.id]: action.payload})
+      state[action.payload.id] = action.payload
+      return state;
     },
     justifyLog: (state, action) => {
-      if(action.payload in state){
-        state[action.payload].state = 'justified';
+      if(!(action.payload.id in state)){
+        state[action.payload.id] = action.payload
       }
+      state[action.payload.id].state = 'justified';
       return state;
     }
   }
@@ -58,9 +62,8 @@ export const selectPersonLogsGroupedByDay = (personId) => {
   return (state) => {
     const logsGrouped = {};
     const personLogs = selectPersonLogs(personId)(state);
-    console.log(personLogs)
     personLogs.forEach((log) => {
-      const sDate = formatLogCreatedAt(log.createdAt);
+      const sDate = moment(log.createdAt).format('MM/DD/YYYY');
 
       if(!(sDate in logsGrouped)){
         logsGrouped[sDate] = {};
@@ -74,7 +77,7 @@ export const selectPersonLogsGroupedByDay = (personId) => {
 export const selectTodaysPersonLogs = (personId) => {
   return (state) => {
     const personLogs = selectPersonLogsGroupedByDay(personId)(state);
-    const todaysLogCreatedAt = formatLogCreatedAt(new Date());
+    const todaysLogCreatedAt = moment().format('MM/DD/YYYY');
 
     if(personLogs && todaysLogCreatedAt in personLogs){
       return personLogs[todaysLogCreatedAt];
@@ -84,11 +87,22 @@ export const selectTodaysPersonLogs = (personId) => {
   }
 }
 
-
-export const formatLogCreatedAt = (createdAt) => {
-  const date = new Date(createdAt);
-  const sDate = `${date.getDate()}/${date.getMonth()}/${date.getFullYear}`;
-  return sDate;
+export const selectOrderedTodaysPersonLogs = (personId) => {
+  return (state) => {
+    const todaysLogs = selectTodaysPersonLogs(personId)(state)
+    const orderedLogs = {
+      [START_WORK_LOG_TYPE]: null,
+      [START_MEAL_LOG_TYPE]: null,
+      [END_MEAL_LOG_TYPE]: null,
+      [END_WORK_LOG_TYPE]: null
+    };
+    if(todaysLogs !== null){
+      Object.values(todaysLogs).forEach(element => {
+        orderedLogs[element.type] = element.state
+      });
+    }
+    return orderedLogs;  
+  } 
 }
 
 
