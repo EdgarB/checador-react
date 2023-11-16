@@ -1,5 +1,5 @@
 import moment from "moment";
-import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, LATE_LOG_STATE, ON_TIME_LOG_STATE, START_WORK_LOG_TYPE } from "./app/constants";
+import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_WORK_LOG_TYPE } from "./app/constants";
 
 const nowTime = moment().format();
 export const logsData = {
@@ -13,7 +13,7 @@ export const logsData = {
   '26': {
     id: '26',
     createdAt: nowTime,
-    state: LATE_LOG_STATE,
+    state: TIME_DELAY_LOG_STATE,
     type: END_MEAL_LOG_TYPE,
     personId: '1',
   },

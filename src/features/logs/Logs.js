@@ -3,7 +3,7 @@ import { Table } from "../../components/Table";
 import { justifyLog, loadLogs, selectLogs, selectPersonLogsGroupedByDay } from "./LogsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/Button";
-import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, JUSTIFIED_LOG_STATE, LATE_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE } from "../../app/constants";
+import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, JUSTIFIED_LOG_STATE, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE } from "../../app/constants";
 import moment from "moment";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,7 +21,7 @@ const Log = (props) =>{
   const {logObj, type} = props;
 
   const logState = logObj !== undefined ? logObj.state : 'Not registered';
-  const canJustify = !logObj || (logObj.state == LATE_LOG_STATE);
+  const canJustify = !logObj || (logObj.state == TIME_DELAY_LOG_STATE);
   console.log('can justify', canJustify)
   const onJustifyClick = () => {
     if(logObj){

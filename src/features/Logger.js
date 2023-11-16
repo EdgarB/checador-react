@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPerson } from "./persons/PersonsSlice";
 import { createLog, selectOrderedTodaysPersonLogs, selectTodaysPersonLogs} from "./logs/LogsSlice";
 import './Logger.scss';
-import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, END_WORK_TIME, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
+import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, END_WORK_TIME, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 
@@ -16,14 +16,29 @@ export const Logger = () => {
   const orderedTodaysLogs = useSelector(selectOrderedTodaysPersonLogs(personId));
  
   const dispatch = useDispatch();
-
   
+  const isLogOnTime = (logType, logTime, logTypeTimeLimit) => {
+    switch(logType) {
+      case START_WORK_LOG_TYPE:
+        return logTime.isBefore(logTypeTimeLimit);
+      case START_MEAL_LOG_TYPE:
+        return logTime.isAfter(logTypeTimeLimit);
+      case END_MEAL_LOG_TYPE:
+        return logTime.isBefore(logTypeTimeLimit);
+      case END_WORK_LOG_TYPE:
+        return logTime.isAfter(logTypeTimeLimit);
+      default:
+        return null;
+    }
+  }
+
+
+
   const createLogFor = (logType)=>{
     return () => {
       const logTypeTimeLimit = moment(TIMES_BY_LOG_TYPE[logType], 'hh:mm');
       const currentTime = moment();
-      const isOnTime = currentTime.isBefore(logTypeTimeLimit);
-      const state = isOnTime ? 'onTime' : 'late';
+      const state = isLogOnTime(logType, currentTime, logTypeTimeLimit) ? ON_TIME_LOG_STATE : TIME_DELAY_LOG_STATE;
 
       const newLog = {
         id: uuidv4(),
