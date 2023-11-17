@@ -21,9 +21,13 @@ export const Persons = () => {
       body={
         personsData.map(
           (person) => {
+            console.log(person)
             return [
-              ...Object.values(person).filter((elem, index)=>{return index !== 0}), 
-                (<Link to={`/persons/${person.id}`}> Go to person</Link>)]
+              person.firstName,
+              person.secondName,
+              person.firstSurname,
+              person.secondSurname, 
+              (<Link to={`/persons/${person.id}`}> Go to person</Link>)]
           }
         ) 
       } 

@@ -1,14 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import {logsData} from '../../data.js'
 import moment from 'moment';
 import { START_WORK_LOG_TYPE, START_MEAL_LOG_TYPE, END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE } from '../../app/constants.js';
+import { getLogs, createOrUpdateLog } from '../../app/firebase.js'; 
 
-export const loadLogs = () => {
-  return {
-    type: 'logs/loadLogs',
-    payload: logsData
-  }
-}
+
 /*
 Logs
 {
@@ -23,24 +19,35 @@ Logs
 
 */
 
+export const loadLogs = createAsyncThunk(
+  'logs/loadLogs',
+  async (personId, thunkAPI) => {
+    const response = await getLogs();
+    return response;
+  }
+);
+
+export const createOrUpdateLogAction = createAsyncThunk(
+  'logs/createLogs',
+  async(log, thunkAPI) => {
+    const response = await createOrUpdateLog(log)
+    return response;
+  }
+)
+
 const logsSlice = createSlice({
   name: 'logs',
   initialState: {},
-  reducers: {
-    loadLogs: (state, action) => {
-      return action.payload;
+  reducers: {},
+  extraReducers: {
+    [loadLogs.fulfilled]: (state, action) => {
+      console.log('logs!', action.payload)
+      return {...state, ...action.payload}
     },
-    createLog: (state, action) =>{
+    [createOrUpdateLogAction.fulfilled]: (state, action) =>{
       state[action.payload.id] = action.payload
       return state;
     },
-    justifyLog: (state, action) => {
-      if(!(action.payload.id in state)){
-        state[action.payload.id] = action.payload
-      }
-      state[action.payload.id].state = 'justified';
-      return state;
-    }
   }
 }); 
 
@@ -106,10 +113,6 @@ export const selectOrderedTodaysPersonLogs = (personId) => {
 }
 
 
-export const {
-  createLog,
-  justifyLog
-} = logsSlice.actions;
 
 export const logsReducer = logsSlice.reducer;
 export default logsReducer;

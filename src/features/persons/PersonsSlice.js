@@ -1,5 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { persons } from '../../data';
+import { getPersons } from '../../app/firebase';
+
+export const fetchPersons = createAsyncThunk(
+  'persons/fetchPersons',
+  async(_, thunkAPI) => {
+    const response = await getPersons();
+    return response;
+  }
+)
+
 
 export const loadPersons = ()=> {
   console.log(persons)
@@ -14,7 +24,9 @@ const personsSlice = createSlice({
   name: 'persons',
   initialState: {},
   reducers: {
-    loadPersons: (state, action) => {
+  },
+  extraReducers: {
+    [fetchPersons.fulfilled]: (state, action) => {
       return action.payload;
     }
   }

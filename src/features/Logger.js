@@ -3,7 +3,7 @@ import { InputText } from "../components/InputText";
 import { Button } from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPerson } from "./persons/PersonsSlice";
-import { createLog, selectOrderedTodaysPersonLogs, selectTodaysPersonLogs} from "./logs/LogsSlice";
+import { createOrUpdateLogAction, selectOrderedTodaysPersonLogs, selectTodaysPersonLogs} from "./logs/LogsSlice";
 import './Logger.scss';
 import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, END_WORK_TIME, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
 import { v4 as uuidv4 } from 'uuid';
@@ -48,7 +48,7 @@ export const Logger = () => {
         personId: personId,
       }
       console.log(newLog)
-      dispatch(createLog(newLog))
+      dispatch(createOrUpdateLogAction(newLog))
     }
   }
 

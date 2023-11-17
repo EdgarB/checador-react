@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Table } from "../../components/Table";
-import { justifyLog, loadLogs, selectLogs, selectPersonLogsGroupedByDay } from "./LogsSlice";
+import { createOrUpdateLogAction, selectPersonLogsGroupedByDay } from "./LogsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/Button";
 import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, JUSTIFIED_LOG_STATE, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE } from "../../app/constants";
@@ -25,9 +25,9 @@ const Log = (props) =>{
   console.log('can justify', canJustify)
   const onJustifyClick = () => {
     if(logObj){
-      dispatch(justifyLog(logObj))
+      dispatch(createOrUpdateLogAction({...logObj, state: JUSTIFIED_LOG_STATE}))
     }else{
-      dispatch(justifyLog({
+      dispatch(createOrUpdateLogAction({
         id: uuidv4(),
         state: JUSTIFIED_LOG_STATE,
         created_at: moment().format(),
