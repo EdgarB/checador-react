@@ -22,6 +22,7 @@ const Log = (props) =>{
   const {logObj, type, logDate} = props;
 
   const logState = logObj !== undefined ? logObj.state : 'Sin registro';
+
   const canJustify = !logObj || (logObj.state === TIME_DELAY_LOG_STATE);
 
   const onJustifyClick = () => {
@@ -48,9 +49,13 @@ const Log = (props) =>{
       return(null)
     }
   }
+
   return(
-    <div>
-      {logState}
+    <div className="flex flex-col">
+      <div className="mb-2">{logState}</div>
+      {logObj && (
+        <div className="mb-2">{moment(logObj.createdAt).format('h:mm:ss a')}</div>
+      )}
       {button()}
     </div>
   )
@@ -85,14 +90,20 @@ export const Logs = (props) => {
     }
   }
   
-
+  const personsName = () => {
+    if(!person){
+      return '';
+    }
+    return ` de ${person.firstName} ${person.firstSurname}`;
+  }
 
   return(
-    
-      <Table 
-        headers= {header}
-        body= {tBody}
-      />
-    
+      <div>
+        <h1 className='w-full text-center mb-2 text-2xl'>Registros{personsName()}</h1>
+          <Table 
+          headers= {header}
+          body= {tBody}
+        />
+      </div>
   );
 }
