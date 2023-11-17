@@ -12,7 +12,7 @@ import { AppLayout } from './AppLayout';
 import { PersonsLogsPage } from '../pages/persons/logs';
 import { useDispatch } from 'react-redux';
 import { loadLogs } from '../features/logs/LogsSlice';
-import { loadPersons } from '../features/persons/PersonsSlice';
+import { fetchPersons, loadPersons } from '../features/persons/PersonsSlice';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/"
@@ -28,7 +28,7 @@ export const App = ()=>{
   const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(loadLogs());
-    dispatch(loadPersons());
+    dispatch(fetchPersons());
   }, [])
 
   return(
