@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { InputText } from "../components/InputText";
 import { Button } from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPerson } from "./persons/PersonsSlice";
-import { createOrUpdateLogAction, selectOrderedTodaysPersonLogs, selectTodaysPersonLogs} from "./logs/LogsSlice";
+import { createOrUpdateLogAction, selectOrderedTodaysPersonLogs} from "./logs/LogsSlice";
 import './Logger.scss';
-import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, END_WORK_TIME, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
+import {DEFAULT_DATE_FORMAT, END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+
 
 export const Logger = () => {
 
@@ -46,6 +47,7 @@ export const Logger = () => {
         created_at: currentTime.format(),
         type: logType,
         personId: personId,
+        logDate: currentTime.format(DEFAULT_DATE_FORMAT)
       }
       console.log(newLog)
       dispatch(createOrUpdateLogAction(newLog))
@@ -58,12 +60,15 @@ export const Logger = () => {
         <div className='c-logger__log-type-cell'>
           <span className="mb-2">{logType}</span>
           <span className="mb-2">Checado</span> 
-          {state.toLowerCase()} 
+          {state} 
         </div>
       )
     }else{
       return(
-        <Button onClick={createLogFor(logType)} >Checa para {logType}</Button>
+        <div className='c-logger__log-type-cell'>
+          <span className="mb-2">{logType}</span>
+          <Button onClick={createLogFor(logType)} >Checar</Button>
+        </div>
       )
     }
   }

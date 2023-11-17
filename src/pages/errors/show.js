@@ -1,6 +1,5 @@
 import { useRouteError } from "react-router-dom";
 import './show.scss';
-import { GlobalLayout } from "../../app/AppLayout";
 
 export  const ErrorPage = () => {
   const error = useRouteError();

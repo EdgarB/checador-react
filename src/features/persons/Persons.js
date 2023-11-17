@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Table } from '../../components/Table';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-import { loadPersons, selectPersonsAsArray } from './PersonsSlice';
+import {useSelector } from "react-redux";
+import {selectPersonsAsArray } from './PersonsSlice';
 
 const header = [
   'ID',
@@ -29,7 +29,7 @@ export const Persons = () => {
               person.secondName,
               person.firstSurname,
               person.secondSurname, 
-              (<Link to={`/persons/${person.id}`}> See person Logs</Link>)]
+              (<Link className='underline' to={`/persons/${person.id}`}> Ver registros</Link>)]
           }
         ) 
       } 

@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import {logsData} from '../../data.js'
 import moment from 'moment';
 import { START_WORK_LOG_TYPE, START_MEAL_LOG_TYPE, END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE } from '../../app/constants.js';
 import { getLogs, createOrUpdateLog } from '../../app/firebase.js'; 
-
+import { updateAppStatus } from '../appStatus/AppStatusSlice.js';
 
 /*
 Logs
@@ -21,16 +20,32 @@ Logs
 
 export const loadLogs = createAsyncThunk(
   'logs/loadLogs',
-  async (personId, thunkAPI) => {
+  async (_, {dispatch}) => {
+    dispatch(updateAppStatus({
+      isLoading: true,
+      status: 'Cargando registros'
+    }))
     const response = await getLogs();
+    dispatch(updateAppStatus({
+      isLoading: false,
+      status: null
+    }))
     return response;
   }
 );
 
 export const createOrUpdateLogAction = createAsyncThunk(
   'logs/createLogs',
-  async(log, thunkAPI) => {
+  async(log, {dispatch}) => {
+    dispatch(updateAppStatus({
+      isLoading: true,
+      status: 'Actualizando registros'
+    }))
     const response = await createOrUpdateLog(log)
+    dispatch(updateAppStatus({
+      isLoading: false,
+      status: null
+    }))
     return response;
   }
 )
@@ -41,7 +56,6 @@ const logsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [loadLogs.fulfilled]: (state, action) => {
-      console.log('logs!', action.payload)
       return {...state, ...action.payload}
     },
     [createOrUpdateLogAction.fulfilled]: (state, action) =>{
@@ -61,7 +75,7 @@ export const selectPersonLogs = (personId) => {
   return (state) => {
     const logs = selectLogs(state)
     return  Object.values(logs).filter((log) => {
-       return log.personId == personId})
+       return log.personId === personId})
   }
 }
 
@@ -70,7 +84,7 @@ export const selectPersonLogsGroupedByDay = (personId) => {
     const logsGrouped = {};
     const personLogs = selectPersonLogs(personId)(state);
     personLogs.forEach((log) => {
-      const sDate = moment(log.createdAt).format('MM/DD/YYYY');
+      const sDate = moment(log.logDate).format('MM/DD/YYYY');
 
       if(!(sDate in logsGrouped)){
         logsGrouped[sDate] = {};
@@ -84,10 +98,10 @@ export const selectPersonLogsGroupedByDay = (personId) => {
 export const selectTodaysPersonLogs = (personId) => {
   return (state) => {
     const personLogs = selectPersonLogsGroupedByDay(personId)(state);
-    const todaysLogCreatedAt = moment().format('MM/DD/YYYY');
+    const todaysLogDate = moment().format('MM/DD/YYYY');
 
-    if(personLogs && todaysLogCreatedAt in personLogs){
-      return personLogs[todaysLogCreatedAt];
+    if(personLogs && todaysLogDate in personLogs){
+      return personLogs[todaysLogDate];
     }else{
       return null;
     }
