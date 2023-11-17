@@ -73,14 +73,11 @@ Project Link: [https://github.com/EdgarB/checador-react/tree/main](https://githu
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 Thanks to all the amazing tools and resources available that made this project a possibility!
-
-* [Codecademy](https://codecademy.com)
-* [Google fonts](https://fonts.google.com/)
+* [Redux](https://es.redux.js.org/)
+* [Redux toolkit](https://redux-toolkit.js.org/)
 * [SCSS](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwju1YjouMGBAxUfLEQIHTl9D8AQFnoECAsQAQ&url=https%3A%2F%2Fsass-lang.com%2F&usg=AOvVaw0p_IRgLEbIPRGWtlW7Wph8&opi=89978449)
-* [How To Hide API Keys Using Netlify from Dan Fletcher](https://youtu.be/m2Dr4L_Ab14?si=iwdp4YRqfj2E1_XG)
-* [CLSX npm module](https://www.npmjs.com/package/clsx)
 * [Netlify](https://www.netlify.com/)
-* [Yelp API](https://www.yelp.com/developers)
+
 
 
 &nbsp;  
