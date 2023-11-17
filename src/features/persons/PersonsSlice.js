@@ -42,7 +42,7 @@ export const selectPersonsAsArray = (state) => {
 
 export const selectPerson = (id) => {
   return (state)=> {
-     return selectPersons(state)[id]
+     return selectPersons(state)[id];
   }
 }
 

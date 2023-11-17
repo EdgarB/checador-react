@@ -13,7 +13,7 @@ import { PersonsLogsPage } from '../pages/persons/logs';
 import { useDispatch } from 'react-redux';
 import { loadLogs } from '../features/logs/LogsSlice';
 import { fetchPersons, loadPersons } from '../features/persons/PersonsSlice';
-
+import './momentConfig';
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/"
     element={<AppLayout/>}

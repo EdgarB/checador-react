@@ -52,39 +52,49 @@ export const Logger = () => {
     }
   }
 
+  const logTypeCell = (logType, state) => {
+    if(state){
+      return(
+        <div className='c-logger__log-type-cell'>
+          <span className="mb-2">{logType}</span>
+          <span className="mb-2">Checado</span> 
+          {state.toLowerCase()} 
+        </div>
+      )
+    }else{
+      return(
+        <Button onClick={createLogFor(logType)} >Checa para {logType}</Button>
+      )
+    }
+  }
 
   const actions = () => {
     if(person){
       return(
         <div className="c-logger__actions">
-          {Object.keys(orderedTodaysLogs).map((logKey)=>{
-            const hasValue = orderedTodaysLogs[logKey] !== null;
-            if(hasValue){
-
-              return(
-                <div>Checado {orderedTodaysLogs[logKey].toLowerCase()} para {logKey}</div>
-              )
-            }else{
-              return(
-                <Button onClick={createLogFor(logKey)} >Checa para {logKey}</Button>
-              )
-            }
-            
+          {Object.keys(orderedTodaysLogs).map((logType)=>{
+            return logTypeCell(logType,orderedTodaysLogs[logType] ) 
           })}
-
         </div>
-        
       )
     }else if(personId){
-      return 'Please add a correct Id';
+      return 'Por favor escriba una ID correcta';
     }else{
-      return 'Insert an ID to check'
+      return 'Escriba su ID por favor'
     }
+  }
+
+  const personsName = () => {
+    if(!person){
+      return '';
+    }
+    return ` ${person.firstName} ${person.firstSurname}`
   }
 
   return(
     <div className="c-logger">
-      <InputText placeholder={'Escribe tu id aqui'} className='c-logger__input' value={personId} onChange={(event)=>{setPersonId(event.currentTarget.value)}}/>
+      <h1 className='c-logger__header'>Bienvenido{personsName()}</h1>
+      <InputText placeholder={'Escribe tu id aqui'} className='c-logger__input mb-2' value={personId} onChange={(event)=>{setPersonId(event.currentTarget.value)}}/>
       {actions()}
     </div>
   )

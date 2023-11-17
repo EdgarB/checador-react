@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadPersons, selectPersonsAsArray } from './PersonsSlice';
 
 const header = [
+  'ID',
   'Primer Nombre', 
   'Segundo Nombre',
   'Primer Apellido',
@@ -23,11 +24,12 @@ export const Persons = () => {
           (person) => {
             console.log(person)
             return [
+              person.id,
               person.firstName,
               person.secondName,
               person.firstSurname,
               person.secondSurname, 
-              (<Link to={`/persons/${person.id}`}> Go to person</Link>)]
+              (<Link to={`/persons/${person.id}`}> See person Logs</Link>)]
           }
         ) 
       } 

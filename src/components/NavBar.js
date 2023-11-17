@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom';
 export const NavBar = () => {
     return(
         <div className='c-navbar'>
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/persons'>Persons</NavLink>
+            <NavLink to='/'>Inicio</NavLink>
+            <NavLink to='/persons'>Personas</NavLink>
         </div>
     )
 }
