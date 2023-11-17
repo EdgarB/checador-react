@@ -1,23 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { persons } from '../../data';
-import { getPersons } from '../../app/firebase';
+import { getPersons, createOrUpdatePerson } from '../../app/firebase';
+import { updateAppStatus } from '../appStatus/AppStatusSlice';
 
 export const fetchPersons = createAsyncThunk(
   'persons/fetchPersons',
-  async(_, thunkAPI) => {
+  async(_, {dispatch}) => {
+    dispatch(updateAppStatus({
+      isLoading: true,
+      status: 'Cargando registros'
+    }))
     const response = await getPersons();
+    dispatch(updateAppStatus({
+      isLoading: false,
+      status: null
+    }))
     return response;
   }
 )
 
-
-export const loadPersons = ()=> {
-  console.log(persons)
-  return {
-    type: 'persons/loadPersons',
-    payload: persons
+export const createOrUpdatePersonAction = createAsyncThunk(
+  'persons/createOrUpdatePersons',
+  async(person, {dispatch}) => {
+    dispatch(updateAppStatus({
+      isLoading: true,
+      status: 'Actualizando registros'
+    }))
+    const response = await createOrUpdatePerson(person);
+    dispatch(updateAppStatus({
+      isLoading: false,
+      status: null
+    }))
+    return response;
   }
-}
+)
 
 
 const personsSlice = createSlice({
@@ -28,6 +43,10 @@ const personsSlice = createSlice({
   extraReducers: {
     [fetchPersons.fulfilled]: (state, action) => {
       return action.payload;
+    },
+    [createOrUpdatePersonAction.fulfilled]: (state, action) => {  
+      state[action.payload.id] = action.payload;
+      return state;
     }
   }
 })
@@ -42,7 +61,7 @@ export const selectPersonsAsArray = (state) => {
 
 export const selectPerson = (id) => {
   return (state)=> {
-     return selectPersons(state)[id]
+     return selectPersons(state)[id];
   }
 }
 

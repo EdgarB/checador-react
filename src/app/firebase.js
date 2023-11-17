@@ -1,24 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  getBytes
-} from "firebase/storage";
 
 import {
   getFirestore,
   collection,
-  addDoc,
   getDocs,
   doc,
-  getDoc,
   query,
   where,
   setDoc,
-  deleteDoc
 } from "firebase/firestore"
 
 // Your web app's Firebase configuration
@@ -35,7 +25,6 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
 
 
@@ -56,13 +45,23 @@ export const getPersons = async ()=> {
   }
 }
 
+export const createOrUpdatePerson = async (person) => {
+  try {
+    const personsRef = collection(db, 'persons');
+    await setDoc(doc(personsRef, person.id), person);
+    return person;
+  }catch(error){
+    console.error(error)
+  }
+}
+
 export const createOrUpdateLog = async (log) => {
   try {
     const logsRef = collection(db, 'logs');
     await setDoc(doc(logsRef, log.id), log);
     return log;
   }catch(error) {
-    console.error(error)
+    console.error(error);
   }
 }
 

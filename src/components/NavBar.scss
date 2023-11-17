@@ -10,4 +10,14 @@
   &>*{
     margin: 0 16px;
   }
+  a{
+    padding: 4px;
+    &.active{
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+  }
+  
+  
 }

@@ -19,3 +19,8 @@ export const ON_TIME_LOG_STATE = 'A tiempo';
 export const TIME_DELAY_LOG_STATE = 'Retardo';
 export const JUSTIFIED_LOG_STATE = 'Justificado'
 
+const MOMENTJS_SATURDAY = 6;
+const MOMENTJS_SUNDAY = 0;
+
+export const LOGGER_OMMITED_DAYS = [MOMENTJS_SATURDAY, MOMENTJS_SUNDAY];
+export const DEFAULT_DATE_FORMAT = 'MM/DD/YYYY';

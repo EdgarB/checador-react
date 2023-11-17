@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { InputText } from "../components/InputText";
 import { Button } from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPerson } from "./persons/PersonsSlice";
-import { createOrUpdateLogAction, selectOrderedTodaysPersonLogs, selectTodaysPersonLogs} from "./logs/LogsSlice";
+import { createOrUpdateLogAction, selectOrderedTodaysPersonLogs} from "./logs/LogsSlice";
 import './Logger.scss';
-import { END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, END_WORK_TIME, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
+import {DEFAULT_DATE_FORMAT, END_MEAL_LOG_TYPE, END_WORK_LOG_TYPE, TIME_DELAY_LOG_STATE, ON_TIME_LOG_STATE, START_MEAL_LOG_TYPE, START_WORK_LOG_TYPE, TIMES_BY_LOG_TYPE } from "../app/constants";
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+
 
 export const Logger = () => {
 
@@ -46,45 +47,59 @@ export const Logger = () => {
         created_at: currentTime.format(),
         type: logType,
         personId: personId,
+        logDate: currentTime.format(DEFAULT_DATE_FORMAT)
       }
       console.log(newLog)
       dispatch(createOrUpdateLogAction(newLog))
     }
   }
 
+  const logTypeCell = (logType, state) => {
+    if(state){
+      return(
+        <div className='c-logger__log-type-cell'>
+          <span className="mb-2">{logType}</span>
+          <span className="mb-2">Checado</span> 
+          {state} 
+        </div>
+      )
+    }else{
+      return(
+        <div className='c-logger__log-type-cell'>
+          <span className="mb-2">{logType}</span>
+          <Button onClick={createLogFor(logType)} >Checar</Button>
+        </div>
+      )
+    }
+  }
 
   const actions = () => {
     if(person){
       return(
         <div className="c-logger__actions">
-          {Object.keys(orderedTodaysLogs).map((logKey)=>{
-            const hasValue = orderedTodaysLogs[logKey] !== null;
-            if(hasValue){
-
-              return(
-                <div>Checado {orderedTodaysLogs[logKey].toLowerCase()} para {logKey}</div>
-              )
-            }else{
-              return(
-                <Button onClick={createLogFor(logKey)} >Checa para {logKey}</Button>
-              )
-            }
-            
+          {Object.keys(orderedTodaysLogs).map((logType)=>{
+            return logTypeCell(logType,orderedTodaysLogs[logType] ) 
           })}
-
         </div>
-        
       )
     }else if(personId){
-      return 'Please add a correct Id';
+      return 'Por favor escriba una ID correcta';
     }else{
-      return 'Insert an ID to check'
+      return 'Escriba su ID por favor'
     }
+  }
+
+  const personsName = () => {
+    if(!person){
+      return '';
+    }
+    return ` ${person.firstName} ${person.firstSurname}`
   }
 
   return(
     <div className="c-logger">
-      <InputText placeholder={'Escribe tu id aqui'} className='c-logger__input' value={personId} onChange={(event)=>{setPersonId(event.currentTarget.value)}}/>
+      <h1 className='c-logger__header'>Bienvenido{personsName()}</h1>
+      <InputText placeholder={'Escribe tu id aqui'} className='c-logger__input mb-2' value={personId} onChange={(event)=>{setPersonId(event.currentTarget.value)}}/>
       {actions()}
     </div>
   )

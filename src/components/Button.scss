@@ -1,8 +1,17 @@
 .c-button{
   display: block;
-  padding: 16px;
-  border: 1px solid black;
+  padding: 4px 8px 6px 8px;
+  border: 2px solid black;
   color: black;
   font-size: 16px;
   border-radius: 999px;
+  transition: all 0.3s ease;
+  min-width: 96px;
+  font-weight: bold;
+  &:hover{
+    cursor: pointer;
+    background-color: black;
+    color:white;
+    transition: all 0.3s ease;
+  }
 }
